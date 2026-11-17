@@ -6,6 +6,7 @@ Writes one PNG per case: default theme, a custom theme that sets its own icon co
 reset again, and a private window.
 """
 import base64
+import os
 import json
 import shutil
 import subprocess
@@ -38,6 +39,7 @@ def main():
             + ('user_pref("ui.systemUsesDarkTheme", 1);\n' if dark else ""))
         ff = subprocess.Popen(["firefox", "--headless", "--marionette", "-remote-allow-system-access", "--no-remote",
                                "--profile", str(profile), "--window-size", "1000,300"],
+                              env=dict(os.environ, MOZ_REMOTE_ALLOW_SYSTEM_ACCESS="1"),
                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         m = Marionette(2830)
         m("WebDriver:NewSession", {})

@@ -23,6 +23,8 @@
     button { font: inherit; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--field); color: inherit; cursor: pointer; }
     button:hover { border-color: var(--accent); color: var(--accent); }
     button.x { padding: 0 6px; }
+    .note:empty { display: none; }
+    .note { color: var(--warn); margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -44,7 +46,8 @@
   <h2>HTTP authentication</h2>
   <label class="opt"><input type="checkbox" id="httpAuth">
     <span>Answer HTTP logins (Basic and Digest, also proxies) from pass
-      <small>For the login dialog Firefox shows for a site, not a form on the page. A remembered entry, or the only one named after the host, is used straight away; otherwise a picker opens, and closing it leaves the login to Firefox. Firefox asks to let the extension see your requests on all sites, which it needs in order to answer the login.</small></span></label>
+      <small>For the login dialog Firefox shows for a site, not a form on the page. A remembered entry, or the only one named after the host, is used straight away; otherwise a picker opens, and closing it leaves the login to Firefox. Firefox asks to let the extension see your requests on all sites, which it needs in order to answer the login.</small>
+      <small id="httpAuthNote" class="note"></small></span></label>
 
   <h2>Remembered entries</h2>
   <p class="lead">What you picked on a site comes first next time. Remove an entry here to forget it.</p>

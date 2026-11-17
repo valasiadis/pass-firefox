@@ -121,11 +121,18 @@ async function loadAuth() {
 
 $("httpAuth").addEventListener("change", async (e) => {
   // Must be asked from this click, so no await before it.
-  const done = e.target.checked
+  const enabling = e.target.checked;
+  const done = enabling
     ? browser.permissions.request(AUTH_PERMISSIONS)
     : browser.permissions.remove(AUTH_PERMISSIONS);
+  const note = $("httpAuthNote");
+  note.textContent = "";
   try {
-    await done;
+    const ok = await done;
+    if (enabling && !ok) note.textContent = "Firefox's permission prompt was declined, so HTTP logins stay with Firefox.";
+    if (enabling && ok) note.textContent = "On. Reload a page whose login dialog is already open.";
+  } catch (err) {
+    note.textContent = `Firefox refused: ${err.message}`;
   } finally {
     loadAuth();
   }

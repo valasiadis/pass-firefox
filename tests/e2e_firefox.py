@@ -118,7 +118,9 @@ def main():
     home = tmp / "home"
     gnupg = home / ".gnupg"
     gnupg.mkdir(parents=True, mode=0o700)
-    env = dict(os.environ, HOME=str(home), GNUPGHOME=str(gnupg), XDG_CONFIG_HOME=str(home / ".config"))
+    # Chrome-context Marionette: newer Firefox takes the flag, some builds only the variable.
+    env = dict(os.environ, HOME=str(home), GNUPGHOME=str(gnupg), XDG_CONFIG_HOME=str(home / ".config"),
+               MOZ_REMOTE_ALLOW_SYSTEM_ACCESS="1")
     env.pop("PASSWORD_STORE_DIR", None)
     ff = srv = None
     try:
