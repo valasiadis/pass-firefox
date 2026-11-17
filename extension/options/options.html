@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>pass fill – settings</title>
+  <link rel="stylesheet" href="../popup/popup.css">
+  <style>
+    body { width: auto; max-height: none; display: block; max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    h2 { font-size: 14px; margin: 28px 0 8px; }
+    p.lead { color: var(--muted); margin: 0 0 16px; }
+    label.opt { display: flex; gap: 8px; align-items: flex-start; margin: 8px 0; }
+    label.opt small { display: block; color: var(--muted); }
+    input[type=number] { width: 64px; font: inherit; }
+    .host-status { padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--field); }
+    .host-status.error { color: var(--err); }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; font-size: 12px; }
+    td.n { color: var(--muted); white-space: nowrap; }
+    .tools { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+    .tools input { flex: 1; font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--field); color: inherit; }
+    button { font: inherit; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--field); color: inherit; cursor: pointer; }
+    button:hover { border-color: var(--accent); color: var(--accent); }
+    button.x { padding: 0 6px; }
+  </style>
+</head>
+<body>
+  <h1>pass fill</h1>
+  <p class="lead">Fills logins from your password store through <code>pass</code>, so your YubiKey and gpg-agent work as they do in the terminal.</p>
+
+  <div id="hostStatus" class="host-status">Checking the native host…</div>
+
+  <h2>Filling</h2>
+  <label class="opt"><input type="checkbox" id="autoFillSingle">
+    <span>Fill straight away when exactly one entry is named after the site
+      <small>e.g. <code>login.example.com</code>. With none or several, or when you have used another entry here, the list opens instead.</small></span></label>
+  <label class="opt"><input type="checkbox" id="autoFillOtp">
+    <span>Fill the one-time code with the entry just used on this site
+      <small>For logins that ask for the code on a second page.</small></span></label>
+  <label class="opt"><span>Clear the clipboard after <input type="number" id="clipboardSeconds" min="0" max="600"> seconds
+      <small>0 keeps it.</small></span></label>
+
+  <h2>HTTP authentication</h2>
+  <label class="opt"><input type="checkbox" id="httpAuth">
+    <span>Answer HTTP logins (Basic and Digest, also proxies) from pass
+      <small>For the login dialog Firefox shows for a site, not a form on the page. A remembered entry, or the only one named after the host, is used straight away; otherwise a picker opens, and closing it leaves the login to Firefox. Firefox asks to let the extension see your requests on all sites, which it needs in order to answer the login.</small></span></label>
+
+  <h2>Remembered entries</h2>
+  <p class="lead">What you picked on a site comes first next time. Remove an entry here to forget it.</p>
+  <div class="tools">
+    <input id="filter" type="search" placeholder="Filter by site or entry">
+    <button id="prune" title="Forget entries that are no longer in the store">Remove deleted entries</button>
+    <button id="clearAll">Forget everything</button>
+  </div>
+  <table>
+    <thead><tr><th>Site</th><th>Entry</th><th>Uses</th><th>Last used</th><th></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script src="../lib/theme.js"></script>
+  <script src="../lib/match.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

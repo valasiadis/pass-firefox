@@ -1,0 +1,73 @@
+{
+  "manifest_version": 2,
+  "name": "pass fill",
+  "version": "1.0.2",
+  "description": "Fill logins from a pass (passwordstore.org) store, remembering which entry you use where.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "firefox-pass@localhost",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "nativeMessaging",
+    "storage",
+    "contextMenus",
+    "theme",
+    "clipboardWrite",
+    "notifications"
+  ],
+  "background": {
+    "scripts": [
+      "lib/match.js",
+      "background.js",
+      "auth.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Fill from pass (Ctrl+Shift+L)",
+    "default_popup": "popup/popup.html",
+    "default_icon": "icons/toolbar-dark.svg",
+    "theme_icons": [
+      {
+        "light": "icons/toolbar-light.svg",
+        "dark": "icons/toolbar-dark.svg",
+        "size": 16
+      },
+      {
+        "light": "icons/toolbar-light.svg",
+        "dark": "icons/toolbar-dark.svg",
+        "size": 32
+      }
+    ],
+    "default_area": "navbar"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L"
+      },
+      "description": "Fill from pass"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "48": "icons/icon-tile.svg",
+    "96": "icons/icon-tile.svg"
+  },
+  "optional_permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ]
+}

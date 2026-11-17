@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>pass</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="origin">
+      <span id="host" class="host">—</span>
+      <span id="formInfo" class="form-info"></span>
+    </div>
+    <div class="search">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+      <input id="query" type="search" placeholder="Search entries" autocomplete="off" spellcheck="false" autofocus>
+    </div>
+  </header>
+
+  <div id="status" class="status" hidden>
+    <div class="spinner" aria-hidden="true"></div>
+    <div>
+      <div id="statusTitle" class="status-title"></div>
+      <div id="statusDetail" class="status-detail"></div>
+    </div>
+  </div>
+
+  <ul id="list" class="list" role="listbox" aria-label="Password entries"></ul>
+  <div id="empty" class="empty" hidden></div>
+
+  <footer>
+    <span><kbd>↵</kbd> fill</span>
+    <span><kbd>Alt</kbd><kbd>P</kbd> password</span>
+    <span><kbd>Alt</kbd><kbd>U</kbd> user</span>
+    <span><kbd>Alt</kbd><kbd>O</kbd> OTP</span>
+    <a id="options" href="#" title="Settings and remembered entries">⚙</a>
+  </footer>
+
+  <script src="../lib/theme.js"></script>
+  <script src="../lib/match.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

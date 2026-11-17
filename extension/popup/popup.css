@@ -1,0 +1,140 @@
+/*
+ * Firefox's own panel look (Proton): its light/dark panel colours as defaults, overridden at
+ * runtime with the active theme's colours by lib/theme.js. Derived shades are mixed from those,
+ * so every theme stays consistent.
+ */
+:root {
+  --bg: #ffffff;
+  --text: #15141a;
+  --line: #e0e0e6;
+  --sel: #e0e0e6;
+  --sel-text: var(--text);
+  --field: #ffffff;
+  --field-text: var(--text);
+  --field-border: #8f8f9d;
+  --accent: #0061e0;
+  --accent-text: #ffffff;
+  --button: #f0f0f4;
+  --warn: #a7341f;
+  --err: #c50042;
+  --radius: 4px;
+  --radius-lg: 8px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #42414d;
+    --text: #fbfbfe;
+    --line: #5b5b66;
+    --sel: #5b5b66;
+    --field: #1c1b22;
+    --field-border: #8f8f9d;
+    --accent: #00ddff;
+    --accent-text: #15141a;
+    --button: #2b2a33;
+    --warn: #ffbd4f;
+    --err: #ff9aa2;
+  }
+}
+:root {
+  --muted: color-mix(in srgb, var(--text) 64%, var(--bg));
+  --hover: color-mix(in srgb, var(--sel) 55%, var(--bg));
+  --accent-soft: color-mix(in srgb, var(--accent) 16%, var(--bg));
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body {
+  width: 400px;
+  max-height: 560px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font: menu;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+body.in-window { width: auto; height: 100vh; max-height: none; }
+
+header { padding: 10px 10px 8px; border-bottom: 1px solid var(--line); }
+.origin { display: flex; align-items: baseline; gap: 8px; margin: 0 2px 8px; min-width: 0; }
+.host { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.form-info { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.form-info.warn { color: var(--warn); }
+
+.search {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--field); color: var(--field-text);
+  border: 1px solid var(--field-border); border-radius: var(--radius);
+  padding: 0 8px;
+}
+.search:focus-within { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+.search svg { width: 14px; height: 14px; fill: none; stroke: currentColor; opacity: 0.65; stroke-width: 1.6; flex: none; }
+.search input {
+  flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: inherit;
+  font: inherit; padding: 6px 0;
+}
+.search input::-moz-search-clear-button { display: none; }
+
+.list { list-style: none; margin: 0; padding: 4px; overflow-y: auto; flex: 1; min-height: 60px; }
+.row {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px;
+  padding: 5px 8px; border-radius: var(--radius); cursor: default;
+}
+.row:hover { background: var(--hover); }
+.row[aria-selected="true"] { background: var(--sel); color: var(--sel-text); }
+.row .name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .dir { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row[aria-selected="true"] .dir { color: color-mix(in srgb, var(--sel-text) 70%, var(--sel)); }
+.row mark { background: none; color: inherit; font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 2px; }
+.badges { display: flex; gap: 4px; align-items: center; }
+.badge {
+  font-size: 11px; padding: 1px 7px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--text); white-space: nowrap;
+}
+.badge.plain { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.actions { display: none; gap: 4px; }
+.row[aria-selected="true"] .actions { display: flex; }
+.row[aria-selected="true"] .badges { display: none; }
+.actions button, button {
+  border: 0; background: var(--button); color: var(--text);
+  font: inherit; font-size: 12px; padding: 3px 8px; border-radius: var(--radius); cursor: default;
+}
+.actions button:hover, button:hover { background: color-mix(in srgb, var(--button) 80%, var(--text)); }
+.actions button.primary { background: var(--accent); color: var(--accent-text); }
+.actions button.primary:hover { background: color-mix(in srgb, var(--accent) 85%, var(--text)); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.empty { padding: 24px 16px; text-align: center; color: var(--muted); }
+.empty.error { color: var(--err); text-align: left; }
+
+.status {
+  display: flex; gap: 10px; align-items: center;
+  margin: 8px 8px 0; padding: 8px 10px; border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+}
+.status.error { background: color-mix(in srgb, var(--err) 14%, var(--bg)); }
+.status.error .spinner, .status.done .spinner { display: none; }
+.status-title { font-weight: 600; }
+.status-detail { color: var(--muted); font-size: 12px; }
+.spinner {
+  width: 16px; height: 16px; border-radius: 50%; flex: none;
+  border: 2px solid var(--line); border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+footer {
+  display: flex; gap: 10px; align-items: center; padding: 6px 12px;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: 11px;
+}
+footer a { margin-left: auto; color: var(--muted); text-decoration: none; font-size: 14px; border-radius: var(--radius); padding: 0 4px; }
+footer a:hover { color: var(--text); background: var(--hover); }
+kbd {
+  font: inherit; font-size: 10px; padding: 0 4px; border: 1px solid var(--line);
+  border-radius: 3px; background: var(--button); margin-right: 2px;
+}

@@ -1,0 +1,6 @@
+dist/
+__pycache__/
+# third-party logos rendered for comparison only, and scratch renders
+design/refs/
+design/renders/
+design/preview.html
