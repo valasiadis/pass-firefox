@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "pass fill",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fill logins from a pass (passwordstore.org) store, remembering which entry you use where.",
   "browser_specific_settings": {
     "gecko": {
